@@ -15,16 +15,15 @@ import (
 
 //Login 返回登录接口,成功登录返回token
 func Login(c *gin.Context) {
-	id, err := service.Login(c)
-	username := c.PostForm("username")
-	role := c.PostForm("role")
+	user, err := service.Login(c)
+
 	if err != nil {
 		msg := "用户名或密码错误"
 		util.ErrorResp(c, http.StatusBadRequest, msg, err)
 
 	} else {
-		jwt := util.NewJWT(id, username, role)
-		msg := "欢迎回来" + username
+		jwt := util.NewJWT(user.ID, user.Username, user.Role)
+		msg := "欢迎回来" + user.Username
 
 		c.JSON(http.StatusOK, gin.H{
 			"code":    http.StatusOK,

@@ -6,6 +6,7 @@
 package util
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -24,8 +25,9 @@ func SuccessResp(c *gin.Context, message string, data ...interface{}) {
 }
 
 // ErrorResp 错误返回值
-func ErrorResp(c *gin.Context, code int, message string, data ...interface{}) {
-	resp(c, code, message+"失败", data...)
+func ErrorResp(c *gin.Context, code int, message string, err error) {
+	errStr := fmt.Sprintf("error: %v", err)
+	resp(c, code, message+"失败", errStr)
 }
 
 func resp(c *gin.Context, code int, message string, data ...interface{}) {

@@ -15,27 +15,27 @@ func Register(user model.User) (err error) {
 	return
 }
 
-// Login 查询password并返回
-func Login(username string) (password string, err error) {
-	var user model.User
-	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
-		return
-	}
-	return user.Password, nil
-}
-
-// GetUid 根据username查询uid
-func GetUid(username string) (uid uint, err error) {
-	var user model.User
-	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
-		return
-	}
-	return user.ID, nil
-}
+//// Login 查询password并返回
+//func Login(username string) (password string, err error) {
+//	var user model.User
+//	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
+//		return
+//	}
+//	return user.Password, nil
+//}
+//
+//// GetUid 根据username查询uid
+//func GetUid(username string) (uid uint, err error) {
+//	var user model.User
+//	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
+//		return
+//	}
+//	return user.ID, nil
+//}
 
 // GetUser 获取user对象
-func GetUser(uid uint) (user model.User, err error) {
-	if err = DB.Where("id = ?", uid).First(&user).Error; err != nil {
+func GetUser(username string) (user model.User, err error) {
+	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
 		return
 	}
 	return

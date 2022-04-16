@@ -17,7 +17,7 @@ func LoginRequired(c *gin.Context) {
 	//根据token解析出jwt
 	jwt, err := util.CheckJWT(token)
 	if err != nil {
-		util.ErrorResp(c, http.StatusUnauthorized, "需要登录")
+		util.ErrorResp(c, http.StatusUnauthorized, "需要登录", err)
 		c.Abort()
 		return
 	}

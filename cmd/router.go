@@ -32,5 +32,9 @@ func Router() {
 		//student.GET("/course/:id", controller.GetStudentCourse)
 		//student.DELETE("/course", controller.DeleteStudentCourse)
 	}
-	r.Run(":8080")
+
+	err := r.Run(":8080")
+	if err != nil {
+		return
+	}
 }

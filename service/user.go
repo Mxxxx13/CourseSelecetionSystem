@@ -37,23 +37,19 @@ func Register(c *gin.Context, role string) (err error) {
 
 // Login 将输入的password加密后和数据库中的password进行比较
 // 返回uid和error, uid用于生成token
-func Login(c *gin.Context) (uid uint, err error) {
+func Login(c *gin.Context) (user model.User, err error) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
-	pass, err := dao.Login(username) // 获取password
+	user, err = dao.GetUser(username)
 	if err != nil {
-		return 0, errors.New("用户不存在")
-	}
-	uid, err = dao.GetUid(username) // 获取id
-	if err != nil {
-		return 0, errors.New("用户不存在")
+		return user, errors.New("用户不存在")
 	}
 
 	// 对password进行验证
-	err = bcrypt.CompareHashAndPassword([]byte(pass), []byte(password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
-		return 0, errors.New("密码错误")
+		return user, errors.New("密码错误")
 	}
 	return
 }

@@ -1,5 +1,5 @@
 // @Title : student
-// @Description ://TODO: Add Description
+// @Description :学生数据库层
 // @Author : MX
 // @Update : 2022/4/16 10:52
 
@@ -16,13 +16,13 @@ func CreateStudentInfo(student model.Student) (err error) {
 }
 
 func UpdateStudentInfo(student model.Student) (err error) {
-	var dbStudent model.Student
-	err = DB.Where("user_id = ?", student.UserID).First(&dbStudent).Error
-	if err != nil {
-		return err
-	}
-
-	err = DB.Save(&student).Error
+	err = DB.Model(&student).Where("user_id = ?", student.UserID).Updates(map[string]interface{}{
+		"name":    student.Name,
+		"number":  student.Number,
+		"gender":  student.Gender,
+		"college": student.College,
+		"major":   student.Major,
+	}).Error
 	if err != nil {
 		return err
 	}
