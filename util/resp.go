@@ -20,12 +20,12 @@ type Reps struct {
 
 // SuccessResp 正确返回值
 func SuccessResp(c *gin.Context, message string, data ...interface{}) {
-	resp(c, http.StatusOK, message, data...)
+	resp(c, http.StatusOK, message+"成功", data...)
 }
 
 // ErrorResp 错误返回值
 func ErrorResp(c *gin.Context, code int, message string, data ...interface{}) {
-	resp(c, code, message, data...)
+	resp(c, code, message+"失败", data...)
 }
 
 func resp(c *gin.Context, code int, message string, data ...interface{}) {

@@ -1,5 +1,5 @@
 // @Title : controller
-// @Description ://TODO: Add Description
+// @Description :学生接口层
 // @Author : MX
 // @Update : 2022/4/16 10:52
 
@@ -16,13 +16,19 @@ import (
 func StudentRegister(c *gin.Context) {
 	err := service.Register(c, "student")
 	if err != nil {
-		util.ErrorResp(c, http.StatusBadRequest, "注册失败，用户已存在", err)
+		util.ErrorResp(c, http.StatusBadRequest, "注册", err)
 	} else {
-		util.SuccessResp(c, "注册成功")
+		util.SuccessResp(c, "注册")
 	}
 	return
 }
 
-func StudentInfo() {
-
+func StudentInfo(c *gin.Context) {
+	err := service.StudentInfo(c)
+	if err != nil {
+		util.ErrorResp(c, http.StatusBadRequest, "学生信息修改", err)
+	} else {
+		util.SuccessResp(c, "学生信息修改")
+	}
+	return
 }

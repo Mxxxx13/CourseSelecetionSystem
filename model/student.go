@@ -9,11 +9,11 @@ import "github.com/jinzhu/gorm"
 
 type Student struct {
 	*gorm.Model
-	Name    string // 名字
-	Number  string // 学号
-	Gender  string // 性别
-	College string // 学院
-	Major   string // 专业
+	Name    string `json:"name"`    // 名字
+	Number  string `json:"number"`  // 学号
+	Gender  string `json:"gender"`  // 性别
+	College string `json:"college"` // 学院
+	Major   string `json:"major"`   // 专业
 
 	User User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
