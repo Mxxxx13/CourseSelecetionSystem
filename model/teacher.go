@@ -13,5 +13,6 @@ type Teacher struct {
 	Gender  string // 性别
 	College string // 学院
 
-	User User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	UserID uint
+	User   User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }

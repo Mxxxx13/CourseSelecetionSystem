@@ -15,5 +15,6 @@ type Student struct {
 	College string `json:"college"` // 学院
 	Major   string `json:"major"`   // 专业
 
-	User User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	UserID uint
+	User   User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
