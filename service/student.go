@@ -13,8 +13,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func StudentInfo(c *gin.Context) (err error) {
+func CreateStudentInfo(c *gin.Context) (err error) {
 	var student model.Student
+
 	if err = c.ShouldBind(&student); err != nil {
 		return err
 	}
@@ -23,9 +24,25 @@ func StudentInfo(c *gin.Context) (err error) {
 	if !exsits {
 		return errors.New("uid not exists")
 	}
+	student.UserID = uid.(uint)
 
-	student.User.ID = uid.(uint)
+	err = dao.CreateStudentInfo(student)
+	return
+}
 
-	err = dao.UpdateStudent(student)
+func UpdateStudentInfo(c *gin.Context) (err error) {
+	var student model.Student
+
+	if err = c.ShouldBind(&student); err != nil {
+		return err
+	}
+
+	uid, exsits := c.Get("uid")
+	if !exsits {
+		return errors.New("uid not exists")
+	}
+	student.UserID = uid.(uint)
+
+	err = dao.UpdateStudentInfo(student)
 	return err
 }

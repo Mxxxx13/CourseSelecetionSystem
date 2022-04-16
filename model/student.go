@@ -9,12 +9,12 @@ import "github.com/jinzhu/gorm"
 
 type Student struct {
 	*gorm.Model
-	Name    string `json:"name"`    // 名字
-	Number  string `json:"number"`  // 学号
-	Gender  string `json:"gender"`  // 性别
-	College string `json:"college"` // 学院
-	Major   string `json:"major"`   // 专业
+	Name    string `form:"name"`    // 名字
+	Number  string `form:"number"`  // 学号
+	Gender  string `form:"gender"`  // 性别
+	College string `form:"college"` // 学院
+	Major   string `form:"major"`   // 专业
 
-	UserID uint
+	UserID uint `gorm:"unique"`
 	User   User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }

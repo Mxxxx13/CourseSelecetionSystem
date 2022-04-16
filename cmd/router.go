@@ -7,26 +7,30 @@ package cmd
 
 import (
 	"CourseSeletionSystem/controller"
+	"CourseSeletionSystem/middleware"
 	"github.com/gin-gonic/gin"
 )
 
-func router() {
+func Router() {
 	r := gin.Default()
 
 	user := r.Group("/user")
 	{
 		user.GET("/login", controller.Login)
-		user.PUT("/", controller.AlterUser)
+		user.PUT("", controller.AlterUser)
 	}
 
 	student := r.Group("/student")
-	student.Use()
 	{
 		student.POST("/register", controller.StudentRegister) // 注册
-		student.PUT("/", controller.StudentInfo)              // 完善信息
+
+		student.Use(middleware.LoginRequired)
+		student.POST("/info", controller.CreateStudentInfo)
+		student.PUT("/info", controller.UpdateStudentInfo) // 完善信息
 		//student.GET("/:id", controller.GetStudent)
 		//student.POST("/course", controller.StudentCourseSelect)
 		//student.GET("/course/:id", controller.GetStudentCourse)
 		//student.DELETE("/course", controller.DeleteStudentCourse)
 	}
+	r.Run(":8080")
 }

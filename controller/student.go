@@ -23,8 +23,18 @@ func StudentRegister(c *gin.Context) {
 	return
 }
 
-func StudentInfo(c *gin.Context) {
-	err := service.StudentInfo(c)
+func CreateStudentInfo(c *gin.Context) {
+	err := service.CreateStudentInfo(c)
+	if err != nil {
+		util.ErrorResp(c, http.StatusBadRequest, "学生信息创建", err)
+	} else {
+		util.SuccessResp(c, "学生信息创建")
+	}
+	return
+}
+
+func UpdateStudentInfo(c *gin.Context) {
+	err := service.UpdateStudentInfo(c)
 	if err != nil {
 		util.ErrorResp(c, http.StatusBadRequest, "学生信息修改", err)
 	} else {

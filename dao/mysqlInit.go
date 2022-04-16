@@ -6,6 +6,7 @@
 package dao
 
 import (
+	"CourseSeletionSystem/model"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
@@ -13,7 +14,7 @@ import (
 var DB *gorm.DB
 
 func ConnDB() {
-	dbUrl := "root:123456@/class?charset=utf8&parseTime=True&loc=Local"
+	dbUrl := "root:123456@/CourseSelectionSystem?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open("mysql", dbUrl)
 	if err != nil {
 		panic(err)
@@ -21,6 +22,6 @@ func ConnDB() {
 	db.SingularTable(true)      // 表名为单数
 	db.DB().SetMaxIdleConns(10) // 最大活跃连接数
 	db.DB().SetMaxOpenConns(20) // 最大空闲连接数
-	db.AutoMigrate()
+	db.AutoMigrate(&model.User{}, &model.Student{})
 	DB = db
 }
