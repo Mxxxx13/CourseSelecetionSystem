@@ -1,5 +1,5 @@
 // @Title : teacher
-// @Description ://TODO: Add Description
+// @Description :教师接口层
 // @Author : MX
 // @Update : 2022/4/17 14:40
 
@@ -26,9 +26,9 @@ func TeacherRegister(c *gin.Context) {
 func CreateTeacher(c *gin.Context) {
 	err := service.CreateTeacher(c)
 	if err != nil {
-		util.ErrorResp(c, http.StatusBadRequest, "学生信息创建", err)
+		util.ErrorResp(c, http.StatusBadRequest, "教师信息创建", err)
 	} else {
-		util.SuccessResp(c, "学生信息创建")
+		util.SuccessResp(c, "教师信息创建")
 	}
 	return
 }
@@ -36,9 +36,9 @@ func CreateTeacher(c *gin.Context) {
 func UpdateTeacher(c *gin.Context) {
 	err := service.UpdateTeacher(c)
 	if err != nil {
-		util.ErrorResp(c, http.StatusBadRequest, "学生信息修改", err)
+		util.ErrorResp(c, http.StatusBadRequest, "教师信息修改", err)
 	} else {
-		util.SuccessResp(c, "学生信息修改")
+		util.SuccessResp(c, "教师信息修改")
 	}
 	return
 }
