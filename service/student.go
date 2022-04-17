@@ -1,5 +1,5 @@
 // @Title : student
-// @Description ://TODO: Add Description
+// @Description :学生逻辑层
 // @Author : MX
 // @Update : 2022/4/16 10:52
 
@@ -39,13 +39,10 @@ func UpdateStudent(c *gin.Context) (err error) {
 		return err
 	}
 
-	uid, exsits := c.Get("uid")
-	if !exsits {
-		return errors.New("uid not exists")
-	}
-	student.UserID = uid.(uint)
+	strId := c.Param("id")
+	id, err := strconv.Atoi(strId)
 
-	err = dao.UpdateStudent(student)
+	err = dao.UpdateStudent(uint(id), student)
 	return err
 }
 

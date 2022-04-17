@@ -12,8 +12,8 @@ func CreateStudent(student model.Student) (err error) {
 	return
 }
 
-func UpdateStudent(student model.Student) (err error) {
-	err = DB.Model(&student).Where("user_id = ?", student.UserID).Updates(map[string]interface{}{
+func UpdateStudent(id uint, student model.Student) (err error) {
+	err = DB.Model(&student).Where("id = ?", id).Updates(map[string]interface{}{
 		"name":    student.Name,
 		"number":  student.Number,
 		"gender":  student.Gender,
