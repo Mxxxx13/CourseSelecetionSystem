@@ -23,15 +23,24 @@ func Router() {
 	student := r.Group("/student")
 	{
 		student.POST("/register", controller.StudentRegister) // 注册
+		student.GET("/:id", controller.GetStudent)
 
 		student.Use(middleware.LoginRequired)
-		student.POST("/info", controller.CreateStudentInfo)
-		student.PUT("/info", controller.UpdateStudentInfo) // 完善信息
-		//student.GET("/:id", controller.GetStudent)
+		student.POST("/", controller.CreateStudent)
+		student.PUT("/", controller.UpdateStudent) // 完善信息
+		student.DELETE("/", controller.DeleteStudent)
 		//student.POST("/course", controller.StudentCourseSelect)
 		//student.GET("/course/:id", controller.GetStudentCourse)
 		//student.DELETE("/course", controller.DeleteStudentCourse)
 	}
+
+	//course := r.Group("/course")
+	//{
+	//	course.POST("/", controller.CreateCourse)
+	//	course.GET("/:id", controller.GetCourse)
+	//	course.PUT("/", controller.UpdateCourse)
+	//	course.DELETE("/", controller.DeleteCourse)
+	//}
 
 	err := r.Run(":8080")
 	if err != nil {

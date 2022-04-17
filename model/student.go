@@ -18,3 +18,11 @@ type Student struct {
 	UserID uint `gorm:"unique"`
 	User   User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
+
+type StudentResp struct {
+	Name    string `form:"name"`    // 名字
+	Number  string `form:"number"`  // 学号
+	Gender  string `form:"gender"`  // 性别
+	College string `form:"college"` // 学院
+	Major   string `form:"major"`   // 专业
+}

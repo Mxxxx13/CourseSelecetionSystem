@@ -7,15 +7,12 @@ package dao
 
 import "CourseSeletionSystem/model"
 
-func CreateStudentInfo(student model.Student) (err error) {
+func CreateStudent(student model.Student) (err error) {
 	err = DB.Create(&student).Error
-	if err != nil {
-		return err
-	}
 	return
 }
 
-func UpdateStudentInfo(student model.Student) (err error) {
+func UpdateStudent(student model.Student) (err error) {
 	err = DB.Model(&student).Where("user_id = ?", student.UserID).Updates(map[string]interface{}{
 		"name":    student.Name,
 		"number":  student.Number,
@@ -23,8 +20,15 @@ func UpdateStudentInfo(student model.Student) (err error) {
 		"college": student.College,
 		"major":   student.Major,
 	}).Error
-	if err != nil {
-		return err
-	}
+	return
+}
+
+func GetStudent(id uint) (student model.Student, err error) {
+	err = DB.Where("id = ?", id).First(&student).Error
+	return
+}
+
+func DeleteStudent(id uint) (err error) {
+	err = DB.Delete(&model.Student{}, id).Error
 	return
 }

@@ -7,13 +7,15 @@ package service
 
 import (
 	"errors"
+	"log"
+	"strconv"
 
 	"CourseSeletionSystem/dao"
 	"CourseSeletionSystem/model"
 	"github.com/gin-gonic/gin"
 )
 
-func CreateStudentInfo(c *gin.Context) (err error) {
+func CreateStudent(c *gin.Context) (err error) {
 	var student model.Student
 
 	if err = c.ShouldBind(&student); err != nil {
@@ -26,11 +28,11 @@ func CreateStudentInfo(c *gin.Context) (err error) {
 	}
 	student.UserID = uid.(uint)
 
-	err = dao.CreateStudentInfo(student)
+	err = dao.CreateStudent(student)
 	return
 }
 
-func UpdateStudentInfo(c *gin.Context) (err error) {
+func UpdateStudent(c *gin.Context) (err error) {
 	var student model.Student
 
 	if err = c.ShouldBind(&student); err != nil {
@@ -43,6 +45,35 @@ func UpdateStudentInfo(c *gin.Context) (err error) {
 	}
 	student.UserID = uid.(uint)
 
-	err = dao.UpdateStudentInfo(student)
+	err = dao.UpdateStudent(student)
+	return err
+}
+
+func GetStudent(c *gin.Context) (studentResp model.StudentResp, err error) {
+	strId := c.Param("id")
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		return studentResp, errors.New("请求参数错误")
+	}
+	// 查询用户
+	student, err := dao.GetStudent(uint(id))
+	studentResp = model.StudentResp{
+		Name:    student.Name,
+		Number:  student.Number,
+		Gender:  student.Gender,
+		College: student.College,
+		Major:   student.Major,
+	}
+	return
+}
+
+func DeleteStudent(c *gin.Context) (err error) {
+	strId := c.Param("id")
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		log.Printf("atoi err:%v\n", err)
+		return
+	}
+	err = dao.DeleteStudent(uint(id))
 	return err
 }

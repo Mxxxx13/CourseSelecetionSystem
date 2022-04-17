@@ -23,8 +23,8 @@ func StudentRegister(c *gin.Context) {
 	return
 }
 
-func CreateStudentInfo(c *gin.Context) {
-	err := service.CreateStudentInfo(c)
+func CreateStudent(c *gin.Context) {
+	err := service.CreateStudent(c)
 	if err != nil {
 		util.ErrorResp(c, http.StatusBadRequest, "学生信息创建", err)
 	} else {
@@ -33,12 +33,30 @@ func CreateStudentInfo(c *gin.Context) {
 	return
 }
 
-func UpdateStudentInfo(c *gin.Context) {
-	err := service.UpdateStudentInfo(c)
+func UpdateStudent(c *gin.Context) {
+	err := service.UpdateStudent(c)
 	if err != nil {
 		util.ErrorResp(c, http.StatusBadRequest, "学生信息修改", err)
 	} else {
 		util.SuccessResp(c, "学生信息修改")
 	}
 	return
+}
+
+func GetStudent(c *gin.Context) {
+	studentResp, err := service.GetStudent(c)
+	if err != nil {
+		util.ErrorResp(c, http.StatusBadRequest, "获取", err)
+	} else {
+		util.SuccessResp(c, "获取", studentResp)
+	}
+}
+
+func DeleteStudent(c *gin.Context) {
+	err := service.DeleteStudent(c)
+	if err != nil {
+		util.ErrorResp(c, http.StatusBadRequest, "删除", err)
+	} else {
+		util.SuccessResp(c, "删除")
+	}
 }
