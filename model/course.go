@@ -9,8 +9,19 @@ import "github.com/jinzhu/gorm"
 
 type Course struct {
 	*gorm.Model
-	Name   string // 名字
-	Score  int    // 学分
-	MaxNum uint   // 课程人数上限
-	StuNum uint   // 选课学生数量
+	Name   string  `form:"name"`   // 名字
+	Score  float32 `form:"score"`  // 学分
+	MaxNum uint    `form:"maxnum"` // 课程人数上限
+	StuNum uint    // 选课学生数量
+
+	TeacherID uint `form:"teacherID"` // 任课老师id
+	Teacher   Teacher
+}
+
+type CourseResp struct {
+	Name    string
+	Score   float32
+	MaxNum  uint
+	StuNum  uint
+	Teacher Teacher
 }
