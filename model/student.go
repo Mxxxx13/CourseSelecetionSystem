@@ -26,3 +26,8 @@ type StudentResp struct {
 	College string `form:"college"` // 学院
 	Major   string `form:"major"`   // 专业
 }
+
+type StudentCourseResp struct {
+	StudentResp StudentResp
+	CourseResps []CourseResp
+}
