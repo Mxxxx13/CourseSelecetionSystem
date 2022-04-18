@@ -46,8 +46,13 @@ func GetCourse(c *gin.Context) (courseResp model.CourseResp, err error) {
 	if err != nil {
 		return courseResp, errors.New("请求参数错误")
 	}
-	// 查询用户
-	course, err := dao.GetCourse(uint(id))
+
+	courseResp, err = GetCourseResp(uint(id))
+	return
+}
+
+func GetCourseResp(courseID uint) (courseResp model.CourseResp, err error) {
+	course, err := dao.GetCourse(courseID)
 	teacher, err := dao.GetTeacher(course.TeacherID)
 	courseResp = model.CourseResp{
 		Name:    course.Name,
