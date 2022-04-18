@@ -1,5 +1,5 @@
 // @Title : router
-// @Description ://TODO: Add Description
+// @Description : 路由设置
 // @Author : MX
 // @Update : 2022/4/14 20:58
 
@@ -27,11 +27,11 @@ func Router() {
 
 		student.Use(middleware.LoginRequired)
 		student.POST("/", controller.CreateStudent)
-		student.PUT("/:id", controller.UpdateStudent) // 完善信息
+		student.PUT("/:id", controller.UpdateStudent)
 		student.DELETE("/:id", controller.DeleteStudent)
-		//student.POST("/course", controller.StudentCourseSelect)
-		//student.GET("/course/:id", controller.GetStudentCourse)
-		//student.DELETE("/course", controller.DeleteStudentCourse)
+		student.POST("/course", controller.StudentSelectCourse)       // 学生选课
+		student.DELETE("/course/:id", controller.StudentDeleteCourse) // 学生退课
+		student.GET("/course", controller.StudentGetCourse)
 	}
 
 	course := r.Group("/course")
