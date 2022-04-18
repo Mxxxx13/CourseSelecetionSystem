@@ -28,6 +28,11 @@ func GetStudent(id uint) (student model.Student, err error) {
 	return
 }
 
+func GetStudentByUid(uid uint) (student model.Student, err error) {
+	err = DB.Where("user_id = ?", uid).First(&student).Error
+	return
+}
+
 func DeleteStudent(id uint) (err error) {
 	err = DB.Delete(&model.Student{}, id).Error
 	return
