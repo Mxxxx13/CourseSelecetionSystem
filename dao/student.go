@@ -34,6 +34,6 @@ func GetStudentByUid(uid uint) (student model.Student, err error) {
 }
 
 func DeleteStudent(id uint) (err error) {
-	err = DB.Delete(&model.Student{}, id).Error
+	err = DB.Unscoped().Delete(&model.Student{}, id).Error
 	return
 }

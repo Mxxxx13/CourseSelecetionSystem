@@ -20,6 +20,7 @@ type Student struct {
 }
 
 type StudentResp struct {
+	ID      uint
 	Name    string `form:"name"`    // 名字
 	Number  string `form:"number"`  // 学号
 	Gender  string `form:"gender"`  // 性别
