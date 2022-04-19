@@ -53,13 +53,15 @@ func GetCourse(c *gin.Context) (courseResp model.CourseResp, err error) {
 
 func GetCourseResp(courseID uint) (courseResp model.CourseResp, err error) {
 	course, err := dao.GetCourse(courseID)
-	teacher, err := dao.GetTeacher(course.TeacherID)
+	teacherResp, err := GetTeacherResp(course.TeacherID)
 	courseResp = model.CourseResp{
-		Name:    course.Name,
-		Score:   course.Score,
-		MaxNum:  course.MaxNum,
-		StuNum:  course.StuNum,
-		Teacher: teacher,
+		Name:        course.Name,
+		Score:       course.Score,
+		MaxNum:      course.MaxNum,
+		StuNum:      course.StuNum,
+		Time:        course.Time,
+		Week:        course.Week,
+		TeacherResp: teacherResp,
 	}
 	return
 }

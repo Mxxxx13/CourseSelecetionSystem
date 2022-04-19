@@ -5,7 +5,9 @@
 
 package dao
 
-import "CourseSeletionSystem/model"
+import (
+	"CourseSeletionSystem/model"
+)
 
 func CreateCourse(course model.Course) (err error) {
 	err = DB.Create(&course).Error
@@ -18,6 +20,8 @@ func UpdateCourse(id uint, course model.Course) (err error) {
 		"score":      course.Score,
 		"maxnum":     course.MaxNum,
 		"teacher_ID": course.TeacherID,
+		"time":       course.Time,
+		"week":       course.Week,
 	}).Error
 	return
 }

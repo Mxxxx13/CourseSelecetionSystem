@@ -16,16 +16,17 @@ type Course struct {
 	MaxNum uint    `form:"maxnum"` // 课程人数上限
 	StuNum uint    `form:"stunum"` // 选课学生数量
 	Time   string  `form:"time"`   // 上课时间
+	Week   string  `form:"week"`   // 上课周
 
 	TeacherID uint `form:"teacherID"` // 任课老师id
-	Teacher   Teacher
 }
 
 type CourseResp struct {
-	Name    string
-	Score   float32
-	MaxNum  uint
-	StuNum  uint
-	Time    string
-	Teacher Teacher
+	Name        string
+	Score       float32
+	MaxNum      uint
+	StuNum      uint
+	Time        string
+	Week        string
+	TeacherResp TeacherResp
 }
