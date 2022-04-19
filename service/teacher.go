@@ -53,7 +53,12 @@ func GetTeacher(c *gin.Context) (teacherResp model.TeacherResp, err error) {
 		return teacherResp, errors.New("请求参数错误")
 	}
 
-	student, err := dao.GetTeacher(uint(id))
+	teacherResp, err = GetTeacherResp(uint(id))
+	return
+}
+
+func GetTeacherResp(id uint) (teacherResp model.TeacherResp, err error) {
+	student, err := dao.GetTeacher(id)
 	teacherResp = model.TeacherResp{
 		Name:    student.Name,
 		Number:  student.Number,

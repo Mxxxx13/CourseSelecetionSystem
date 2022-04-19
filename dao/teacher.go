@@ -28,6 +28,6 @@ func GetTeacher(id uint) (teacher model.Teacher, err error) {
 }
 
 func DeleteTeacher(id uint) (err error) {
-	err = DB.Delete(&model.Teacher{}, id).Error
+	err = DB.Unscoped().Delete(&model.Teacher{}, id).Error
 	return
 }
