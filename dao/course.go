@@ -27,7 +27,7 @@ func UpdateCourse(id uint, course model.Course) (err error) {
 }
 
 func GetCourse(id uint) (course model.Course, err error) {
-	err = DB.Where("id = ?", id).First(&course).Error
+	err = DB.First(&course, id).Error
 	return
 }
 
