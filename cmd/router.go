@@ -25,7 +25,7 @@ func Router() {
 		student.POST("/register", controller.StudentRegister) // 注册
 		student.GET("/:id", controller.GetStudent)
 
-		student.Use(middleware.LoginRequired)
+		student.Use(middleware.LoginRequired, middleware.AdminAndStudentCheck)
 		student.POST("/", controller.CreateStudent)
 		student.PUT("/:id", controller.UpdateStudent)
 		student.DELETE("/:id", controller.DeleteStudent)
@@ -36,6 +36,7 @@ func Router() {
 
 	course := r.Group("/course")
 	{
+		course.Use(middleware.LoginRequired, middleware.AdminCheck)
 		course.POST("/", controller.CreateCourse)
 		course.GET("/:id", controller.GetCourse)
 		course.PUT("/:id", controller.UpdateCourse)
@@ -45,6 +46,8 @@ func Router() {
 	teacher := r.Group("/teacher")
 	{
 		teacher.POST("/register", controller.TeacherRegister)
+
+		teacher.Use(middleware.LoginRequired, middleware.AdminAndTeacherCheck)
 		teacher.POST("/", controller.CreateTeacher)
 		teacher.GET("/:id", controller.GetTeacher)
 		teacher.PUT("/:id", controller.UpdateTeacher)
