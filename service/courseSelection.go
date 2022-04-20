@@ -30,10 +30,23 @@ func StudentSelectCourse(c *gin.Context) (err error) {
 	if err != nil {
 		return
 	}
+
+	if !IsFindCourse(uint(courseID)) {
+		return errors.New("所选的课不存在")
+	}
+
 	selection.CourseID = uint(courseID)
 
 	err = dao.StudentSelectCourse(selection)
 	return
+}
+
+func IsFindCourse(id uint) bool {
+	_, err := dao.GetCourse(id)
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 func StudentGetCourse(c *gin.Context) (resp model.StudentCourseResp, err error) {
@@ -44,6 +57,7 @@ func StudentGetCourse(c *gin.Context) (resp model.StudentCourseResp, err error) 
 
 	student, err := dao.GetStudentByUid(uid.(uint))
 	studentResp := model.StudentResp{
+		ID:      student.ID,
 		Name:    student.Name,
 		Number:  student.Number,
 		Gender:  student.Gender,
@@ -62,10 +76,11 @@ func StudentGetCourse(c *gin.Context) (resp model.StudentCourseResp, err error) 
 	for _, selection := range selections {
 		courseResp, err := GetCourseResp(selection.CourseID)
 		if err != nil {
-			return
+			return resp, err
 		}
 		courseResps = append(courseResps, courseResp)
 	}
+	resp.CourseResps = courseResps
 
 	return
 }
