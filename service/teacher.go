@@ -104,7 +104,7 @@ func GetStudentSelection(c *gin.Context) (resp model.TeacherStudentSelectionResp
 		var ssResp model.StudentSelectionResp
 		courseResp, err := GetCourseResp(course.ID)
 		if err != nil {
-			return
+			return resp, err
 		}
 		ssResp.CourseResp = courseResp
 
@@ -112,7 +112,7 @@ func GetStudentSelection(c *gin.Context) (resp model.TeacherStudentSelectionResp
 		for _, selection := range selections {
 			studentResp, err := GetStudentResp(selection.StudentID)
 			if err != nil {
-				return
+				return resp, err
 			}
 
 			ssResp.StudentsResp = append(ssResp.StudentsResp, studentResp)
