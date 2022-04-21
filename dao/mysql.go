@@ -13,7 +13,7 @@ import (
 
 var DB *gorm.DB
 
-func ConnDB() {
+func MysqlInit() {
 	dbUrl := "root:123456@/CourseSelectionSystem?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open("mysql", dbUrl)
 	if err != nil {
