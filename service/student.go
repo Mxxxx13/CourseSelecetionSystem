@@ -52,8 +52,12 @@ func GetStudent(c *gin.Context) (studentResp model.StudentResp, err error) {
 	if err != nil {
 		return studentResp, errors.New("请求参数错误")
 	}
-	// 查询用户
-	student, err := dao.GetStudent(uint(id))
+	studentResp, err = GetStudentResp(uint(id))
+	return
+}
+
+func GetStudentResp(sid uint) (studentResp model.StudentResp, err error) {
+	student, err := dao.GetStudent(sid)
 	studentResp = model.StudentResp{
 		Name:    student.Name,
 		Number:  student.Number,

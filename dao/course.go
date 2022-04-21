@@ -35,3 +35,8 @@ func DeleteCourse(id uint) (err error) {
 	err = DB.Delete(&model.Course{}, id).Error
 	return
 }
+
+func GetCourseByTid(tid uint) (course []model.Course, err error) {
+	err = DB.Where("teacher_id = ?", tid).Find(&course).Error
+	return
+}

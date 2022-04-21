@@ -27,6 +27,11 @@ func GetTeacher(id uint) (teacher model.Teacher, err error) {
 	return
 }
 
+func GetTeacherByUid(uid uint) (teacher model.Teacher, err error) {
+	err = DB.Where("user_id = ?", uid).First(&teacher).Error
+	return
+}
+
 func DeleteTeacher(id uint) (err error) {
 	err = DB.Unscoped().Delete(&model.Teacher{}, id).Error
 	return

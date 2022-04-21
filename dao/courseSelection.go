@@ -12,7 +12,7 @@ func StudentSelectCourse(selection model.CourseSelection) (err error) {
 	return
 }
 
-func StudentGetCourses(sid uint) (selections []model.CourseSelection, err error) {
+func GetSelectionBySid(sid uint) (selections []model.CourseSelection, err error) {
 	err = DB.Where("student_id = ?", sid).Find(&selections).Error
 	return
 }
@@ -20,5 +20,10 @@ func StudentGetCourses(sid uint) (selections []model.CourseSelection, err error)
 func StudentDeleteCourse(selection model.CourseSelection) (err error) {
 	err = DB.Where("student_id = ? and course_id = ?", selection.StudentID, selection.CourseID).
 		Delete(&selection).Error
+	return
+}
+
+func GetSelectionByCid(cid uint) (selections []model.CourseSelection, err error) {
+	err = DB.Where("course_id = ?", cid).Find(&selections).Error
 	return
 }

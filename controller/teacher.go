@@ -60,3 +60,12 @@ func DeleteTeacher(c *gin.Context) {
 		util.SuccessResp(c, "删除")
 	}
 }
+
+func GetStudentSelection(c *gin.Context) {
+	resp, err := service.GetStudentSelection(c)
+	if err != nil {
+		util.ErrorResp(c, http.StatusBadRequest, "获取", err)
+	} else {
+		util.SuccessResp(c, "获取", resp)
+	}
+}

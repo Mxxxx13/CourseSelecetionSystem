@@ -78,3 +78,46 @@ func DeleteTeacher(c *gin.Context) (err error) {
 	err = dao.DeleteTeacher(uint(id))
 	return err
 }
+
+func GetStudentSelection(c *gin.Context) (resp model.TeacherStudentSelectionResp, err error) {
+	uid, exsits := c.Get("uid")
+	if !exsits {
+		return resp, errors.New("uid not exists")
+	}
+
+	teacher, err := dao.GetTeacherByUid(uid.(uint))
+	if err != nil {
+		return
+	}
+
+	resp.TeacherResp, err = GetTeacherResp(teacher.UserID)
+	if err != nil {
+		return
+	}
+
+	courses, err := dao.GetCourseByTid(teacher.ID)
+	if err != nil {
+		return
+	}
+
+	for _, course := range courses {
+		var ssResp model.StudentSelectionResp
+		courseResp, err := GetCourseResp(course.ID)
+		if err != nil {
+			return
+		}
+		ssResp.CourseResp = courseResp
+
+		selections, err := dao.GetSelectionByCid(course.ID)
+		for _, selection := range selections {
+			studentResp, err := GetStudentResp(selection.StudentID)
+			if err != nil {
+				return
+			}
+
+			ssResp.StudentsResp = append(ssResp.StudentsResp, studentResp)
+		}
+		resp.StudentSelectionResp = append(resp.StudentSelectionResp, ssResp)
+	}
+	return
+}

@@ -52,6 +52,7 @@ func Router() {
 		teacher.GET("/:id", controller.GetTeacher)
 		teacher.PUT("/:id", controller.UpdateTeacher)
 		teacher.DELETE("/:id", controller.DeleteTeacher)
+		teacher.GET("/selection/:id", controller.GetStudentSelection)
 	}
 
 	err := r.Run(":8080")

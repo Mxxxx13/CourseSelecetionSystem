@@ -67,7 +67,7 @@ func StudentGetCourse(c *gin.Context) (resp model.StudentCourseResp, err error) 
 
 	resp.StudentResp = studentResp
 
-	selections, err := dao.StudentGetCourses(student.ID)
+	selections, err := dao.GetSelectionBySid(student.ID)
 	if err != nil {
 		return
 	}

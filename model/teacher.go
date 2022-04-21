@@ -24,3 +24,13 @@ type TeacherResp struct {
 	Gender  string // 性别
 	College string // 学院
 }
+
+type TeacherStudentSelectionResp struct {
+	TeacherResp          TeacherResp
+	StudentSelectionResp []StudentSelectionResp
+}
+
+type StudentSelectionResp struct {
+	CourseResp   CourseResp
+	StudentsResp []StudentResp
+}
