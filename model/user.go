@@ -11,6 +11,6 @@ type User struct {
 	*gorm.Model
 	Username string `gorm:"unique"` // 用户名
 	Password string // 密码
-	//Email    string
-	Role string // 身份
+	Email    string // 邮箱地址
+	Role     string // 身份
 }

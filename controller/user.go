@@ -18,8 +18,7 @@ func Login(c *gin.Context) {
 	user, err := service.Login(c)
 
 	if err != nil {
-		msg := "用户名或密码错误"
-		util.ErrorResp(c, http.StatusBadRequest, msg, err)
+		util.ErrorResp(c, http.StatusBadRequest, "注册", err)
 
 	} else {
 		jwt := util.NewJWT(user.ID, user.Username, user.Role)
@@ -37,10 +36,28 @@ func Login(c *gin.Context) {
 func AlterUser(c *gin.Context) {
 	err := service.AlterUser(c)
 	if err != nil {
-		util.ErrorResp(c, http.StatusBadRequest, "修改失败,用户名不存在", err)
+		util.ErrorResp(c, http.StatusBadRequest, "修改", err)
 	} else {
-		util.SuccessResp(c, "修改成功")
+		util.SuccessResp(c, "修改")
 	}
 }
 
 // TODO: 添加修改密码的功能
+
+func AlterPassword(c *gin.Context) {
+	err := service.AlterPassword(c)
+	if err != nil {
+		util.ErrorResp(c, http.StatusBadRequest, "找回", err)
+	} else {
+		util.SuccessResp(c, "找回")
+	}
+}
+
+func SendEmail(c *gin.Context) {
+	err := service.SendEmail(c)
+	if err != nil {
+		util.ErrorResp(c, http.StatusBadRequest, "发送", err)
+	} else {
+		util.SuccessResp(c, "发送")
+	}
+}

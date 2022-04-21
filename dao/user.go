@@ -15,24 +15,6 @@ func Register(user model.User) (err error) {
 	return
 }
 
-//// Login 查询password并返回
-//func Login(username string) (password string, err error) {
-//	var user model.User
-//	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
-//		return
-//	}
-//	return user.Password, nil
-//}
-//
-//// GetUid 根据username查询uid
-//func GetUid(username string) (uid uint, err error) {
-//	var user model.User
-//	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
-//		return
-//	}
-//	return user.ID, nil
-//}
-
 // GetUser 获取user对象
 func GetUser(username string) (user model.User, err error) {
 	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
@@ -43,8 +25,22 @@ func GetUser(username string) (user model.User, err error) {
 
 // AlterUser 更新用户信息
 func AlterUser(username string, uid uint) (err error) {
-	var user model.User
-	if err = DB.Model(&user).Where("id = ?", uid).Update("username", username).Error; err != nil {
+
+	if err = DB.Model(&model.User{}).Where("id = ?", uid).Update("username", username).Error; err != nil {
+		return
+	}
+	return
+}
+
+func AlterUserPassword(password string, uid uint) (err error) {
+	if err = DB.Model(&model.User{}).Where("id = ?", uid).Update("password", password).Error; err != nil {
+		return
+	}
+	return
+}
+
+func GetUserByEmail(address string) (user model.User, err error) {
+	if err = DB.Model(&user).Where("email = ?", address).First(&user).Error; err != nil {
 		return
 	}
 	return
