@@ -8,9 +8,12 @@ package main
 import (
 	"CourseSeletionSystem/cmd"
 	"CourseSeletionSystem/dao"
+	"CourseSeletionSystem/util"
 )
 
 func main() {
-	dao.ConnDB()
+	dao.MysqlInit()
+	dao.RedisInit()
+	util.NewEmailPool()
 	cmd.Router()
 }
