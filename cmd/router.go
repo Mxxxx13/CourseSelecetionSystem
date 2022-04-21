@@ -18,6 +18,8 @@ func Router() {
 	{
 		user.GET("/login", controller.Login)
 		user.PUT("", controller.AlterUser)
+		user.GET("/send-email", controller.SendEmail)
+		user.PUT("/find-password", controller.AlterPassword)
 	}
 
 	student := r.Group("/student")
