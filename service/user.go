@@ -8,6 +8,7 @@ package service
 import (
 	"errors"
 	"strconv"
+	"time"
 
 	"CourseSeletionSystem/dao"
 	"CourseSeletionSystem/model"
@@ -36,8 +37,6 @@ func Register(c *gin.Context, role string) (err error) {
 	return
 }
 
-// Login 将输入的password加密后和数据库中的password进行比较
-// 返回uid和error, uid用于生成token
 func Login(c *gin.Context) (user model.User, err error) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
@@ -55,19 +54,26 @@ func Login(c *gin.Context) (user model.User, err error) {
 	return
 }
 
-func AlterUser(c *gin.Context) (err error) {
-	username := c.PostForm("username")
-	id, exists := c.Get("uid")
-	if !exists {
-		return errors.New("id not exist")
+func BindEmail(c *gin.Context) (err error) {
+	address := c.PostForm("address")
+	id := c.Param("id")
+	uid, err := strconv.Atoi(id)
+	if err != nil {
+		return errors.New("请求参数错误")
 	}
-	err = dao.AlterUser(username, id.(uint))
+
+	err = CheckCode(c)
+	if err != nil {
+		return
+	}
+
+	err = dao.BindEmail(address, uint(uid))
 	return
 }
 
 func CheckCode(c *gin.Context) (err error) {
-	uid, _ := c.Get("uid")
-	key := "code:" + uid.(string)
+	uid := c.Param("id")
+	key := "code:" + uid
 	val, err := dao.Redis.Get(key).Result()
 	code := c.PostForm("code")
 	if code != val {
@@ -107,26 +113,34 @@ func AlterPassword(c *gin.Context) (err error) {
 func SendEmail(c *gin.Context) (err error) {
 	address := c.PostForm("address") // 邮箱地址
 
+	id := c.Param("id")
+	userid, err := strconv.Atoi(id)
+	uid := uint(userid)
+	if err != nil {
+		return errors.New("请求参数错误")
+	}
+
+	err = SendEmailToUser(address, uid)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func SendEmailToUser(address string, uid uint) (err error) {
 	code := util.GenerateCode()
 
-	user, err := dao.GetUserByEmail(address)
-	if err != nil {
-		return errors.New("输入的邮箱错误")
-	}
-	key := "code:" + strconv.Itoa(int(user.ID))
 	// 将验证码存入redis
 	// 有效期5分钟
-	err = dao.Redis.Set(key, code, 300).Err()
+	key := "code:" + strconv.Itoa(int(uid))
+	err = dao.Redis.Set(key, code, 300*time.Second).Err()
 	if err != nil {
 		return err
 	}
 
-	c.Set("uid", user.ID)
-
-	// 通过邮件发送验证码
 	err = util.SendEmail(code, address)
 	if err != nil {
 		return errors.New("发送邮件失败")
 	}
-	return nil
+	return
 }

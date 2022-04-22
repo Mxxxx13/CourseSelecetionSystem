@@ -7,7 +7,6 @@ package dao
 
 import "CourseSeletionSystem/model"
 
-//Register 将username,password插入数据库
 func Register(user model.User) (err error) {
 	if err = DB.Create(&user).Error; err != nil {
 		return
@@ -15,7 +14,6 @@ func Register(user model.User) (err error) {
 	return
 }
 
-// GetUser 获取user对象
 func GetUser(username string) (user model.User, err error) {
 	if err = DB.Where("username = ?", username).First(&user).Error; err != nil {
 		return
@@ -23,10 +21,8 @@ func GetUser(username string) (user model.User, err error) {
 	return
 }
 
-// AlterUser 更新用户信息
-func AlterUser(username string, uid uint) (err error) {
-
-	if err = DB.Model(&model.User{}).Where("id = ?", uid).Update("username", username).Error; err != nil {
+func BindEmail(address string, uid uint) (err error) {
+	if err = DB.Model(&model.User{}).Where("id = ?", uid).Update("email", address).Error; err != nil {
 		return
 	}
 	return

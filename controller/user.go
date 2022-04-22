@@ -32,17 +32,14 @@ func Login(c *gin.Context) {
 	}
 }
 
-// AlterUser
-func AlterUser(c *gin.Context) {
-	err := service.AlterUser(c)
+func BindEmail(c *gin.Context) {
+	err := service.BindEmail(c)
 	if err != nil {
-		util.ErrorResp(c, http.StatusBadRequest, "修改", err)
+		util.ErrorResp(c, http.StatusBadRequest, "绑定", err)
 	} else {
-		util.SuccessResp(c, "修改")
+		util.SuccessResp(c, "绑定")
 	}
 }
-
-// TODO: 添加修改密码的功能
 
 func AlterPassword(c *gin.Context) {
 	err := service.AlterPassword(c)
