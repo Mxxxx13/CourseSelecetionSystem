@@ -83,6 +83,13 @@ func CheckCode(c *gin.Context) (err error) {
 }
 
 func AlterPassword(c *gin.Context) (err error) {
+	id := c.Param("id")
+	userid, err := strconv.Atoi(id)
+	if err != nil {
+		return errors.New("请求参数错误")
+	}
+	uid := uint(userid)
+
 	err = CheckCode(c)
 	if err != nil {
 		return
@@ -101,12 +108,7 @@ func AlterPassword(c *gin.Context) (err error) {
 		return
 	}
 
-	id, exists := c.Get("uid")
-	if !exists {
-		return errors.New("id not exist")
-	}
-
-	err = dao.AlterUserPassword(password, id.(uint))
+	err = dao.AlterUserPassword(password, uid)
 	return
 }
 

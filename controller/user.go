@@ -18,7 +18,7 @@ func Login(c *gin.Context) {
 	user, err := service.Login(c)
 
 	if err != nil {
-		util.ErrorResp(c, http.StatusBadRequest, "注册", err)
+		util.ErrorResp(c, http.StatusBadRequest, "登录", err)
 
 	} else {
 		jwt := util.NewJWT(user.ID, user.Username, user.Role)
