@@ -3,7 +3,7 @@
 // @Author : MX
 // @Update : 2022/4/14 20:58
 
-package cmd
+package entrance
 
 import (
 	"CourseSeletionSystem/controller"
