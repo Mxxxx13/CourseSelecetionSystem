@@ -57,7 +57,7 @@ func Router() {
 		teacher.POST("/", controller.CreateTeacher)
 		teacher.PUT("/:id", controller.UpdateTeacher)
 		teacher.DELETE("/:id", controller.DeleteTeacher)
-		teacher.GET("/selection/:id", controller.GetStudentSelection)
+		teacher.GET("/selection", controller.GetStudentSelection)
 	}
 
 	err := r.Run(":8080")

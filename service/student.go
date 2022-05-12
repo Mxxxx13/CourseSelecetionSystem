@@ -64,6 +64,7 @@ func GetStudent(c *gin.Context) (studentResp model.StudentResp, err error) {
 func GetStudentResp(sid uint) (studentResp model.StudentResp, err error) {
 	student, err := dao.GetStudent(sid)
 	studentResp = model.StudentResp{
+		ID:      student.ID,
 		Name:    student.Name,
 		Number:  student.Number,
 		Gender:  student.Gender,

@@ -15,5 +15,5 @@ https://documenter.getpostman.com/view/13537219/UyrAGHJK
 - 账号通过邮箱找回密码
 - jwt单点登录
 - 对学生、老师、学校等等进行权限管理
-
+- 选课部分使用`rabbitmq`进行流量削峰
 

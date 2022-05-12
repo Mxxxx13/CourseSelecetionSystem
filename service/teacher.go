@@ -101,7 +101,7 @@ func GetStudentSelection(c *gin.Context) (resp model.TeacherStudentSelectionResp
 		return
 	}
 
-	resp.TeacherResp, err = GetTeacherResp(teacher.UserID)
+	resp.TeacherResp, err = GetTeacherResp(teacher.ID)
 	if err != nil {
 		return
 	}
