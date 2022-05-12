@@ -126,5 +126,10 @@ func StudentDeleteCourse(c *gin.Context) (err error) {
 	selection.CourseID = uint(courseID)
 
 	err = dao.StudentDeleteCourse(selection)
+	if err != nil {
+		return
+	}
+
+	err = dao.CourseStuNumSubOne(selection.CourseID)
 	return err
 }
