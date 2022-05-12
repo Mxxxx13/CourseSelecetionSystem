@@ -23,9 +23,9 @@ func StudentCheck(c *gin.Context) {
 	if role != "student" {
 		util.ErrorResp(c, http.StatusBadRequest, "失败", errors.New("权限不够"))
 		c.Abort()
+	} else {
+		c.Next()
 	}
-
-	c.Next()
 }
 
 func TeacherCheck(c *gin.Context) {
@@ -38,9 +38,9 @@ func TeacherCheck(c *gin.Context) {
 	if role != "teacher" {
 		util.ErrorResp(c, http.StatusBadRequest, "失败", errors.New("权限不够"))
 		c.Abort()
+	} else {
+		c.Next()
 	}
-
-	c.Next()
 }
 
 func AdminCheck(c *gin.Context) {
@@ -53,25 +53,24 @@ func AdminCheck(c *gin.Context) {
 	if role != "admin" {
 		util.ErrorResp(c, http.StatusBadRequest, "失败", errors.New("权限不够"))
 		c.Abort()
+	} else {
+		c.Next()
 	}
-
-	c.Next()
 }
 
 func AdminAndTeacherCheck(c *gin.Context) {
 	rolestr, exists := c.Get("role")
 	if !exists {
-		util.ErrorResp(c, http.StatusBadRequest, "失败", errors.New("role not exists"))
+		util.ErrorResp(c, http.StatusBadRequest, "", errors.New("role not exists"))
 		c.Abort()
 	}
 	role := rolestr.(string)
 	if role == "admin" || role == "teacher" {
 		c.Next()
+	} else {
+		util.ErrorResp(c, http.StatusBadRequest, "", errors.New("权限不够"))
+		c.Abort()
 	}
-
-	util.ErrorResp(c, http.StatusBadRequest, "失败", errors.New("权限不够"))
-	c.Abort()
-
 }
 
 func AdminAndStudentCheck(c *gin.Context) {
@@ -81,11 +80,10 @@ func AdminAndStudentCheck(c *gin.Context) {
 		c.Abort()
 	}
 	role := rolestr.(string)
-	if role == "admin" || role == "teacher" {
+	if role == "admin" || role == "student" {
 		c.Next()
+	} else {
+		util.ErrorResp(c, http.StatusBadRequest, "失败", errors.New("权限不够"))
+		c.Abort()
 	}
-
-	util.ErrorResp(c, http.StatusBadRequest, "失败", errors.New("权限不够"))
-	c.Abort()
-
 }

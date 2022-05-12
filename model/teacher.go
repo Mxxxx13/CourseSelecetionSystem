@@ -19,6 +19,7 @@ type Teacher struct {
 }
 
 type TeacherResp struct {
+	Tid     uint
 	Name    string // 名字
 	Number  string
 	Gender  string // 性别

@@ -35,14 +35,15 @@ func Router() {
 		student.DELETE("/:id", controller.DeleteStudent)
 		student.POST("/course", controller.StudentSelectCourse)       // 学生选课
 		student.DELETE("/course/:id", controller.StudentDeleteCourse) // 学生退课
-		student.GET("/course", controller.StudentGetCourse)
+		student.GET("/course", controller.StudentGetCourse)           // 查看自己的选课
 	}
 
 	course := r.Group("/course")
 	{
+		course.GET("/:id", controller.GetCourse)
+
 		course.Use(middleware.LoginRequired, middleware.AdminCheck)
 		course.POST("/", controller.CreateCourse)
-		course.GET("/:id", controller.GetCourse)
 		course.PUT("/:id", controller.UpdateCourse)
 		course.DELETE("/:id", controller.DeleteCourse)
 	}
@@ -50,10 +51,10 @@ func Router() {
 	teacher := r.Group("/teacher")
 	{
 		teacher.POST("/register", controller.TeacherRegister)
+		teacher.GET("/:id", controller.GetTeacher)
 
 		teacher.Use(middleware.LoginRequired, middleware.AdminAndTeacherCheck)
 		teacher.POST("/", controller.CreateTeacher)
-		teacher.GET("/:id", controller.GetTeacher)
 		teacher.PUT("/:id", controller.UpdateTeacher)
 		teacher.DELETE("/:id", controller.DeleteTeacher)
 		teacher.GET("/selection/:id", controller.GetStudentSelection)

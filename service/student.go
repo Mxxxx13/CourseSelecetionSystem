@@ -39,6 +39,11 @@ func UpdateStudent(c *gin.Context) (err error) {
 		return err
 	}
 
+	err = StudentCheck(c)
+	if err != nil {
+		return
+	}
+
 	strId := c.Param("id")
 	id, err := strconv.Atoi(strId)
 
@@ -69,6 +74,11 @@ func GetStudentResp(sid uint) (studentResp model.StudentResp, err error) {
 }
 
 func DeleteStudent(c *gin.Context) (err error) {
+	err = StudentCheck(c)
+	if err != nil {
+		return
+	}
+
 	strId := c.Param("id")
 	id, err := strconv.Atoi(strId)
 	if err != nil {
@@ -77,4 +87,33 @@ func DeleteStudent(c *gin.Context) (err error) {
 	}
 	err = dao.DeleteStudent(uint(id))
 	return err
+}
+
+// StudentCheck 对用户身份进行校验
+func StudentCheck(c *gin.Context) (err error) {
+	role, exists := c.Get("role")
+	if !exists {
+		return errors.New("role not exists")
+	}
+	if role.(string) == "admin" {
+		return nil
+	}
+
+	strId := c.Param("id")
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		return
+	}
+
+	uid, exists := c.Get("uid")
+	if !exists {
+		return errors.New("uid not exists")
+	}
+
+	student, err := dao.GetStudentByUid(uid.(uint))
+
+	if uint(id) != student.ID {
+		return errors.New("权限不够")
+	}
+	return
 }

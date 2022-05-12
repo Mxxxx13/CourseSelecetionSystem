@@ -33,6 +33,11 @@ func CreateTeacher(c *gin.Context) (err error) {
 }
 
 func UpdateTeacher(c *gin.Context) (err error) {
+	err = TeacherCheck(c)
+	if err != nil {
+		return
+	}
+
 	var teacher model.Teacher
 
 	if err = c.ShouldBind(&teacher); err != nil {
@@ -58,17 +63,23 @@ func GetTeacher(c *gin.Context) (teacherResp model.TeacherResp, err error) {
 }
 
 func GetTeacherResp(id uint) (teacherResp model.TeacherResp, err error) {
-	student, err := dao.GetTeacher(id)
+	teacher, err := dao.GetTeacher(id)
 	teacherResp = model.TeacherResp{
-		Name:    student.Name,
-		Number:  student.Number,
-		Gender:  student.Gender,
-		College: student.College,
+		Tid:     teacher.ID,
+		Name:    teacher.Name,
+		Number:  teacher.Number,
+		Gender:  teacher.Gender,
+		College: teacher.College,
 	}
 	return
 }
 
 func DeleteTeacher(c *gin.Context) (err error) {
+	err = TeacherCheck(c)
+	if err != nil {
+		return
+	}
+
 	strId := c.Param("id")
 	id, err := strconv.Atoi(strId)
 	if err != nil {
@@ -118,6 +129,35 @@ func GetStudentSelection(c *gin.Context) (resp model.TeacherStudentSelectionResp
 			ssResp.StudentsResp = append(ssResp.StudentsResp, studentResp)
 		}
 		resp.StudentSelectionResp = append(resp.StudentSelectionResp, ssResp)
+	}
+	return
+}
+
+// TeacherCheck 对教师身份进行校验
+func TeacherCheck(c *gin.Context) (err error) {
+	role, exists := c.Get("role")
+	if !exists {
+		return errors.New("role not exists")
+	}
+	if role.(string) == "admin" {
+		return nil
+	}
+
+	strId := c.Param("id")
+	id, err := strconv.Atoi(strId)
+	if err != nil {
+		return
+	}
+
+	uid, exists := c.Get("uid")
+	if !exists {
+		return errors.New("uid not exists")
+	}
+
+	teacher, err := dao.GetTeacherByUid(uid.(uint))
+
+	if uint(id) != teacher.ID {
+		return errors.New("权限不够")
 	}
 	return
 }

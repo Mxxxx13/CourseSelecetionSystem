@@ -6,11 +6,13 @@
 package service
 
 import (
+	"encoding/json"
 	"errors"
 	"strconv"
 
 	"CourseSeletionSystem/dao"
 	"CourseSeletionSystem/model"
+	"CourseSeletionSystem/rabbitmq"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,17 +37,41 @@ func StudentSelectCourse(c *gin.Context) (err error) {
 		return errors.New("所选的课不存在")
 	}
 
+	if !IsMaxNum(uint(courseID)) {
+		return errors.New("选课人数已满")
+	}
+
 	selection.CourseID = uint(courseID)
 
-	err = dao.StudentSelectCourse(selection)
+	byteSelction, err := json.Marshal(selection)
+	if err != nil {
+		return
+	}
+
+	rabbitMQ := rabbitmq.NewRabbitMQWork("course_selection")
+	rabbitMQ.PublishWork(string(byteSelction))
+	//err = dao.StudentSelectCourse(selection)
 	return
 }
 
-func IsFindCourse(id uint) bool {
-	_, err := dao.GetCourse(id)
+func IsFindCourse(cid uint) bool {
+	_, err := dao.GetCourse(cid)
 	if err != nil {
 		return false
 	}
+	return true
+}
+
+func IsMaxNum(cid uint) bool {
+	course, err := dao.GetCourse(cid)
+	if err != nil {
+		return false
+	}
+
+	if course.StuNum+1 > course.MaxNum {
+		return false
+	}
+
 	return true
 }
 

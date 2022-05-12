@@ -142,7 +142,7 @@ func SendEmailToUser(address string, uid uint) (err error) {
 
 	err = util.SendEmail(code, address)
 	if err != nil {
-		return errors.New("发送邮件失败")
+		return
 	}
 	return
 }
