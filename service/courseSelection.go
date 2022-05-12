@@ -48,6 +48,10 @@ func StudentSelectCourse(c *gin.Context) (err error) {
 		return
 	}
 
+	if dao.IsSelectionExist(selection) {
+		return errors.New("不能重复选课")
+	}
+
 	rabbitMQ := rabbitmq.NewRabbitMQWork("course_selection")
 	rabbitMQ.PublishWork(string(byteSelction))
 	//err = dao.StudentSelectCourse(selection)
@@ -124,6 +128,10 @@ func StudentDeleteCourse(c *gin.Context) (err error) {
 	courseIDStr := c.PostForm("courseID")
 	courseID, err := strconv.Atoi(courseIDStr)
 	selection.CourseID = uint(courseID)
+
+	if dao.IsSelectionExist(selection) {
+		return errors.New("未选择这门课")
+	}
 
 	err = dao.StudentDeleteCourse(selection)
 	if err != nil {

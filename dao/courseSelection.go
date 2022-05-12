@@ -27,3 +27,12 @@ func GetSelectionByCid(cid uint) (selections []model.CourseSelection, err error)
 	err = DB.Where("course_id = ?", cid).Find(&selections).Error
 	return
 }
+
+func IsSelectionExist(selection model.CourseSelection) bool {
+	result := DB.Where("student_id = ? and course_id = ?", selection.StudentID, selection.CourseID).
+		First(&model.CourseSelection{})
+	if result.RowsAffected >= 1 {
+		return true
+	}
+	return false
+}

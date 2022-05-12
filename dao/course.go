@@ -47,7 +47,7 @@ func CourseStuNumSubOne(cid uint) (err error) {
 		return
 	}
 	err = DB.Model(&course).Where("id = ?", cid).Updates(map[string]interface{}{
-		"stu_num": course.StuNum + 1,
+		"stu_num": course.StuNum - 1,
 	}).Error
 	return
 }
@@ -58,7 +58,7 @@ func CourseStuNumAddOne(cid uint) (err error) {
 		return
 	}
 	err = DB.Model(&course).Where("id = ?", cid).Updates(map[string]interface{}{
-		"stu_num": course.StuNum - 1,
+		"stu_num": course.StuNum + 1,
 	}).Error
 	return
 }
