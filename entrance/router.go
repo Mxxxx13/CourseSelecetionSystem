@@ -33,9 +33,9 @@ func Router() {
 		student.POST("/", controller.CreateStudent)
 		student.PUT("/:id", controller.UpdateStudent)
 		student.DELETE("/:id", controller.DeleteStudent)
-		student.POST("/course", controller.StudentSelectCourse)       // 学生选课
-		student.DELETE("/course/:id", controller.StudentDeleteCourse) // 学生退课
-		student.GET("/course", controller.StudentGetCourse)           // 查看自己的选课
+		student.POST("/course", controller.StudentSelectCourse)   // 学生选课
+		student.DELETE("/course", controller.StudentDeleteCourse) // 学生退课
+		student.GET("/course", controller.StudentGetCourse)       // 查看自己的选课
 	}
 
 	course := r.Group("/course")

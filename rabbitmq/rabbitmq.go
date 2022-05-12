@@ -143,7 +143,7 @@ func (r *RabbitMQ) ConsumeWork() {
 			go func() {
 				for d := range msgs {
 					//消息逻辑处理，可以自行设计逻辑
-					log.Printf("Received a message: %s", d.Body)
+					//log.Printf("Received a message: %s", d.Body)
 					selection := model.CourseSelection{}
 					err := json.Unmarshal(d.Body, &selection)
 					if err != nil {
